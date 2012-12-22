@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Internet.Models.Answer>
+@{
+    ViewBag.Title = "Все ответы на вопрос: " + ViewData["QUESTION_BODY"] ;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Все ответы на вопрос: @ViewData["QUESTION_BODY"] </h2>
+
+<p>
+    @Html.ActionLink("Создать новый вариант ответа", "Create", new { id = ViewData["QUESTION_ID"] }, new { @class = "btn btn-mini" }) |  
+    <a href = "@Url.Content("~/Question/Index/" + ViewData["TEST_ID"])" class = "btn btn-mini"> Назад ко всем вопросам</a>
+</p>
+<p>
+
+</p>
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+     <th>Вопрос
+        </th>
+        <th>Ответ
+        </th>
+        <th>Верный
+        </th>
+       
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+        <td>
+                @Html.DisplayFor(modelItem => item.Question.QuestionBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRight)
+            </td>
+            
+            <td>
+               <p> @Html.ActionLink("Изменить ответ", "Edit", new { id = item.ID }, new { @class = "btn btn-mini btn-info" })</p> 
+               <p>@Html.ActionLink("Удалить", "Delete", new { id = item.ID }, new { @class = "btn btn-mini btn-danger" }) </p>
+            </td>
+        </tr>
+    }
+
+</table>

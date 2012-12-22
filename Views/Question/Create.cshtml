@@ -1,0 +1,46 @@
+﻿@model Internet.Models.ViewModels.QuestionViewModel
+
+@{
+    ViewBag.Title = "Создание вопроса";
+    List<SelectListItem> types = new List<SelectListItem>();
+    foreach (var item in Model.Type)
+    {
+        types.Add(new SelectListItem
+        {
+            Text = item.Name,
+            Value = item.ID.ToString()
+        });
+    }
+}
+
+@using (Html.BeginForm()) {
+    <fieldset>
+    <legend>Создание вопроса</legend>
+
+    <div class="display-label">Текст вопроса</div>
+    <div class="display-field">
+       
+        @Html.Kendo().EditorFor(model => model.Question.QuestionBody)                                                               
+        @Html.ValidationMessageFor(m => m.Question.QuestionBody)
+        
+    </div>
+    <div class="display-label">Тема вопроса</div>
+    <div class="display-field">
+       
+        @Html.Kendo().EditorFor(model => model.Question.QuestionSubject)                                                               
+        @Html.ValidationMessageFor(m => m.Question.QuestionSubject)
+        
+    </div>
+        <div class="editor-label">
+           Тип вопроса
+        </div>
+        <div class="editor-field">
+           @Html.DropDownListFor(md => md.Question.QuestionType, types) 
+        </div>
+
+</fieldset>
+    <p>
+        <input type="submit" value="Create" class = "btn btn-success"/> </p>
+       <p> <a href =@Url.Content("~/Question/Index/" + ViewData["TestID"]) class = "btn btn-mini"> Назад ко всем вопросам</a></p>
+    
+}

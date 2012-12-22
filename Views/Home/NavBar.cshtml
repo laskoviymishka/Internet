@@ -1,0 +1,24 @@
+﻿@model Internet.Models.NavBarModel
+@{
+    Layout = null;
+}
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        
+        @foreach (var category in Model.Categorys)
+        {
+            if (category.Tests.ToList().Count > 0)
+            {
+            <li class="nav-header">@category.CategoryName</li>
+                              foreach (var test in category.Tests)
+                              {
+                                  if (test.Approved)
+                                  {
+                                    <li><a href="@Url.Content("~/TestPassing/Test/" + test.ID.ToString())">@test.TestName</a></li>
+                                  }
+                              }
+            }
+        }
+
+    </ul>
+</div>

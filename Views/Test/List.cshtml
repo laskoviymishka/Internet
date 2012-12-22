@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Internet.Models.Test>
+
+@{
+    ViewBag.Title = "Список тестов(админ)";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Список тестов(админ)</h2>
+
+<p>
+    @Html.ActionLink("Новый тест", "Create",null, new { @class = "btn btn-mini " })|
+    @Html.ActionLink("Новая категория", "CreateCategory", null, new { @class = "btn btn-mini" })|
+    @Html.ActionLink("Новая сложность", "CreateDifficulty", null, new { @class = "btn btn-mini " })
+</p>
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>
+            Название теста
+        </th>
+        <th>
+            Описание теста
+        </th>
+        <th>
+            Категория
+        </th>
+        <th>
+            Автор
+        </th>
+        <th>
+            Сложность
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.ToList())
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approved)
+            @Html.DisplayFor(modelItem => item.TestName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestCategory.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestAuthor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Difficulty.DifficultyName)
+        </td>
+
+        <td>
+            
+            <p><a href = "@Url.Content("~/Test/Delete/" + item.ID.ToString())" class="btn btn-mini btn-danger"> Удалить</a></p>
+             @if (!item.Approved)
+             {
+                 <p><a href = "@Url.Content("~/Test/Edit/" + item.ID.ToString())" class="btn btn-mini btn-info">Редактировать</a></p> 
+            
+            <p><a href = "@Url.Content("~/Question/Index/" + item.ID.ToString())" class="btn btn-mini btn-info"> Все вопросы</a></p>
+              <p><a href = "@Url.Content("~/Test/Approve/" + item.ID.ToString())" class="btn btn-mini btn-warning"> Опубликовать </a></p>
+             }
+        </td>
+    </tr>
+}
+
+</table>
+@if (ViewData["APPROVING"].ToString() == "False")
+{
+    <div class="alert alert-block">
+    <h3 class="alert-heading">Тест невозможно опубликовать.</h3>
+     <p>Возможно в нем нет вопросов, либо на один из вопросов не задан правильный ответ</p></div>
+}
+
+<a href =@Url.Content("~/Result/Index/")  class="btn btn-mini btn-success"> Все результаты</a> |<a href =@Url.Content("~/TestPassing/Index/")  class="btn btn-mini btn-success" > Прохождение тестов</a>

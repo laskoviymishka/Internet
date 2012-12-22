@@ -1,0 +1,539 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="Answers" EntityType="TestModel.Store.Answers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AnswersResults" EntityType="TestModel.Store.AnswersResults" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Difficulty" EntityType="TestModel.Store.Difficulty" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Questions" EntityType="TestModel.Store.Questions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Results" EntityType="TestModel.Store.Results" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="TestModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TestCategory" EntityType="TestModel.Store.TestCategory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tests" EntityType="TestModel.Store.Tests" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Answers_Questions" Association="TestModel.Store.FK_Answers_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnswersResults_Answers" Association="TestModel.Store.FK_AnswersResults_Answers">
+            <End Role="Answers" EntitySet="Answers" />
+            <End Role="AnswersResults" EntitySet="AnswersResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_Tests" Association="TestModel.Store.FK_Questions_Tests">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Results_Tests" Association="TestModel.Store.FK_Results_Tests">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tests_Difficulty" Association="TestModel.Store.FK_Tests_Difficulty">
+            <End Role="Difficulty" EntitySet="Difficulty" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tests_TestCategory" Association="TestModel.Store.FK_Tests_TestCategory">
+            <End Role="TestCategory" EntitySet="TestCategory" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Answers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AnswerBody" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="IsRight" Type="bit" />
+          <Property Name="QuestionID" Type="int" />
+        </EntityType>
+        <EntityType Name="AnswersResults">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AnswerID" Type="int" Nullable="false" />
+          <Property Name="ResultID" Type="int" Nullable="false" />
+          <Property Name="AnswerText" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Difficulty">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DifficultyName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DifficultyDescription" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionBody" Type="text" Nullable="false" />
+          <Property Name="TestID" Type="int" Nullable="false" />
+          <Property Name="QuestionType" Type="int" Nullable="false" />
+          <Property Name="QuestionSubject" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Results">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ResultDescription" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TestCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CategoryDescription" Type="text" />
+        </EntityType>
+        <EntityType Name="Tests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TestDescription" Type="text" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="TestAuthor" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="DifficultyID" Type="int" Nullable="false" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Answers_Questions">
+          <End Role="Questions" Type="TestModel.Store.Questions" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Answers" Type="TestModel.Store.Answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnswersResults_Answers">
+          <End Role="Answers" Type="TestModel.Store.Answers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AnswersResults" Type="TestModel.Store.AnswersResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnswersResults">
+              <PropertyRef Name="AnswerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_Tests">
+          <End Role="Tests" Type="TestModel.Store.Tests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Questions" Type="TestModel.Store.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="TestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Results_Tests">
+          <End Role="Tests" Type="TestModel.Store.Tests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Results" Type="TestModel.Store.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="TestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tests_Difficulty">
+          <End Role="Difficulty" Type="TestModel.Store.Difficulty" Multiplicity="1" />
+          <End Role="Tests" Type="TestModel.Store.Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Difficulty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tests">
+              <PropertyRef Name="DifficultyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tests_TestCategory">
+          <End Role="TestCategory" Type="TestModel.Store.TestCategory" Multiplicity="1" />
+          <End Role="Tests" Type="TestModel.Store.Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tests">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Answers" EntityType="TestModel.Answer" />
+          <EntitySet Name="Difficulties" EntityType="TestModel.Difficulty" />
+          <EntitySet Name="Questions" EntityType="TestModel.Question" />
+          <EntitySet Name="sysdiagrams" EntityType="TestModel.sysdiagram" />
+          <EntitySet Name="TestCategories" EntityType="TestModel.TestCategory" />
+          <EntitySet Name="Tests" EntityType="TestModel.Test" />
+          <AssociationSet Name="FK_Answers_Questions" Association="TestModel.FK_Answers_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tests_Difficulty" Association="TestModel.FK_Tests_Difficulty">
+            <End Role="Difficulty" EntitySet="Difficulties" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_Tests" Association="TestModel.FK_Questions_Tests">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tests_TestCategory" Association="TestModel.FK_Tests_TestCategory">
+            <End Role="TestCategory" EntitySet="TestCategories" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
+          <EntitySet Name="Results" EntityType="TestModel.Result" />
+          <AssociationSet Name="FK_Results_Tests" Association="TestModel.FK_Results_Tests">
+            <End Role="Test" EntitySet="Tests" />
+            <End Role="Result" EntitySet="Results" />
+          </AssociationSet>
+          <EntitySet Name="AnswerResults" EntityType="TestModel.AnswerResult" />
+          <AssociationSet Name="FK_AnswersResults_Answers" Association="TestModel.FK_AnswersResults_Answers">
+            <End Role="Answer" EntitySet="Answers" />
+            <End Role="AnswerResult" EntitySet="AnswerResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnswersResults_Results" Association="TestModel.FK_AnswersResults_Results">
+            <End Role="Result" EntitySet="Results" />
+            <End Role="AnswerResult" EntitySet="AnswerResults" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnswerBody" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IsRight" Type="Boolean" Nullable="false" />
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="TestModel.FK_Answers_Questions" FromRole="Answers" ToRole="Questions" />
+          <NavigationProperty Name="AnswersResults" Relationship="TestModel.FK_AnswersResults_Answers" FromRole="Answer" ToRole="AnswerResult" />
+        </EntityType>
+        <EntityType Name="Difficulty">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DifficultyName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DifficultyDescription" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Tests" Relationship="TestModel.FK_Tests_Difficulty" FromRole="Difficulty" ToRole="Tests" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionBody" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TestID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Answers" Relationship="TestModel.FK_Answers_Questions" FromRole="Questions" ToRole="Answers" />
+          <NavigationProperty Name="Test" Relationship="TestModel.FK_Questions_Tests" FromRole="Questions" ToRole="Tests" />
+          <Property Type="Int32" Name="QuestionType" Nullable="false" />
+          <Property Type="String" Name="QuestionSubject" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TestCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CategoryDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Tests" Relationship="TestModel.FK_Tests_TestCategory" FromRole="TestCategory" ToRole="Tests" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TestDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="TestAuthor" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="DifficultyID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Difficulty" Relationship="TestModel.FK_Tests_Difficulty" FromRole="Tests" ToRole="Difficulty" />
+          <NavigationProperty Name="Questions" Relationship="TestModel.FK_Questions_Tests" FromRole="Tests" ToRole="Questions" />
+          <NavigationProperty Name="TestCategory" Relationship="TestModel.FK_Tests_TestCategory" FromRole="Tests" ToRole="TestCategory" />
+          <NavigationProperty Name="Results" Relationship="TestModel.FK_Results_Tests" FromRole="Test" ToRole="Result" />
+          <Property Type="Boolean" Name="Approved" Nullable="false" DefaultValue="False" />
+        </EntityType>
+        <Association Name="FK_Answers_Questions">
+          <End Role="Questions" Type="TestModel.Question" Multiplicity="1" />
+          <End Role="Answers" Type="TestModel.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tests_Difficulty">
+          <End Role="Difficulty" Type="TestModel.Difficulty" Multiplicity="1" />
+          <End Role="Tests" Type="TestModel.Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Difficulty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tests">
+              <PropertyRef Name="DifficultyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_Tests">
+          <End Role="Tests" Type="TestModel.Test" Multiplicity="1" />
+          <End Role="Questions" Type="TestModel.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="TestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tests_TestCategory">
+          <End Role="TestCategory" Type="TestModel.TestCategory" Multiplicity="1" />
+          <End Role="Tests" Type="TestModel.Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tests">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Result">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="TestID" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ResultDescription" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Test" Relationship="TestModel.FK_Results_Tests" FromRole="Result" ToRole="Test" />
+          <NavigationProperty Name="AnswersResults" Relationship="TestModel.FK_AnswersResults_Results" FromRole="Result" ToRole="AnswerResult" />
+        </EntityType>
+        <Association Name="FK_Results_Tests">
+          <End Type="TestModel.Test" Role="Test" Multiplicity="1" />
+          <End Type="TestModel.Result" Role="Result" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Result">
+              <PropertyRef Name="TestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AnswerResult">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ResultID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="AnswerID" Nullable="false" Type="Int32" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Answer" Relationship="TestModel.FK_AnswersResults_Answers" FromRole="AnswerResult" ToRole="Answer" />
+          <NavigationProperty Name="Result" Relationship="TestModel.FK_AnswersResults_Results" FromRole="AnswerResult" ToRole="Result" />
+          <Property Type="String" Name="AnswerText" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_AnswersResults_Answers">
+          <End Type="TestModel.Answer" Role="Answer" Multiplicity="1" />
+          <End Type="TestModel.AnswerResult" Role="AnswerResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnswerResult">
+              <PropertyRef Name="AnswerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnswersResults_Results">
+          <End Type="TestModel.Result" Role="Result" Multiplicity="1" />
+          <End Type="TestModel.AnswerResult" Role="AnswerResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Result">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnswerResult">
+              <PropertyRef Name="ResultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestEntities">
+          <EntitySetMapping Name="Answers"><EntityTypeMapping TypeName="TestModel.Answer"><MappingFragment StoreEntitySet="Answers">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="AnswerBody" ColumnName="AnswerBody" />
+            <ScalarProperty Name="IsRight" ColumnName="IsRight" />
+            <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Difficulties"><EntityTypeMapping TypeName="TestModel.Difficulty"><MappingFragment StoreEntitySet="Difficulty">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="DifficultyName" ColumnName="DifficultyName" />
+            <ScalarProperty Name="DifficultyDescription" ColumnName="DifficultyDescription" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Questions"><EntityTypeMapping TypeName="TestModel.Question"><MappingFragment StoreEntitySet="Questions">
+            <ScalarProperty Name="QuestionSubject" ColumnName="QuestionSubject" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="QuestionBody" ColumnName="QuestionBody" />
+            <ScalarProperty Name="TestID" ColumnName="TestID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams"><EntityTypeMapping TypeName="TestModel.sysdiagram"><MappingFragment StoreEntitySet="sysdiagrams">
+            <ScalarProperty Name="name" ColumnName="name" />
+            <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+            <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+            <ScalarProperty Name="version" ColumnName="version" />
+            <ScalarProperty Name="definition" ColumnName="definition" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TestCategories"><EntityTypeMapping TypeName="TestModel.TestCategory"><MappingFragment StoreEntitySet="TestCategory">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+            <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Tests"><EntityTypeMapping TypeName="TestModel.Test"><MappingFragment StoreEntitySet="Tests">
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="TestName" ColumnName="TestName" />
+            <ScalarProperty Name="TestDescription" ColumnName="TestDescription" />
+            <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+            <ScalarProperty Name="TestAuthor" ColumnName="TestAuthor" />
+            <ScalarProperty Name="DifficultyID" ColumnName="DifficultyID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Results">
+            <EntityTypeMapping TypeName="TestModel.Result">
+              <MappingFragment StoreEntitySet="Results">
+                <ScalarProperty Name="ResultDescription" ColumnName="ResultDescription" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="TestID" ColumnName="TestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnswerResults">
+            <EntityTypeMapping TypeName="IsTypeOf(TestModel.AnswerResult)">
+              <MappingFragment StoreEntitySet="AnswersResults">
+                <ScalarProperty Name="AnswerText" ColumnName="AnswerText" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+                <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="TestsModel" ZoomLevel="85">
+        <EntityTypeShape EntityType="TestModel.Answer" Width="1.5" PointX="7.5" PointY="3.625" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.Difficulty" Width="1.5" PointX="0.75" PointY="1.5" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.Question" Width="1.5" PointX="5.375" PointY="4" Height="2.172587890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.sysdiagram" Width="1.5" PointX="9.625" PointY="3.875" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.TestCategory" Width="1.5" PointX="0.5" PointY="3.875" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.Test" Width="1.5" PointX="3.125" PointY="0.625" Height="3.1340950520833331" IsExpanded="true" />
+        <AssociationConnector Association="TestModel.FK_Answers_Questions" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.875" PointY="4.8987939453125" />
+          <ConnectorPoint PointX="7.5" PointY="4.8987939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_Tests_Difficulty" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.3939925130208337" />
+          <ConnectorPoint PointX="3.125" PointY="2.3939925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_Questions_Tests" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.625" PointY="3.2470914713541665" />
+          <ConnectorPoint PointX="5.78125" PointY="3.2470914713541665" />
+          <ConnectorPoint PointX="5.78125" PointY="4" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_Tests_TestCategory" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="4.7689925130208337" />
+          <ConnectorPoint PointX="3.875" PointY="4.7689925130208337" />
+          <ConnectorPoint PointX="3.875" PointY="3.7590950520833331" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="TestModel.Result" Width="1.5" PointX="6.25" PointY="0.5" Height="2.172587890625" />
+        <AssociationConnector Association="TestModel.FK_Results_Tests" >
+          <ConnectorPoint PointX="4.625" PointY="1.6487939453124998" />
+          <ConnectorPoint PointX="6.25" PointY="1.6487939453124998" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="TestModel.AnswerResult" PointX="8.625" PointY="1" Width="1.5" Height="1.4033821614583331" />
+        <AssociationConnector Association="TestModel.FK_AnswersResults_Answers" >
+          <ConnectorPoint PointX="8.8125" PointY="3.625" />
+          <ConnectorPoint PointX="8.8125" PointY="2.9802864583333331" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_AnswersResults_Results" >
+          <ConnectorPoint PointX="7.75" PointY="1.8362939453124998" />
+          <ConnectorPoint PointX="8.625" PointY="1.8362939453124998" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

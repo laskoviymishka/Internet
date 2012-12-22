@@ -1,0 +1,77 @@
+﻿@model Internet.Models.CreateTestViewModel
+
+@{
+    ViewBag.Title = "Редактирование теста";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> Difficulties = new List<SelectListItem>();
+    foreach (var item in Model.Difficulties)
+    {
+        Difficulties.Add(new SelectListItem
+        {
+            Text = item.DifficultyName,
+            Value = item.ID.ToString()
+        });
+    }
+    List<SelectListItem> Categories = new List<SelectListItem>();
+    foreach (var item in Model.Categories)
+    {
+        Categories.Add(new SelectListItem
+        {
+            Text = item.CategoryName,
+            Value = item.ID.ToString()
+        });
+    }
+}
+
+
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Редактирование теста</legend>
+
+        @Html.HiddenFor(model => model.Test.ID)
+
+        <div class="editor-label">
+          Имя теста
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Test.TestName)
+            @Html.ValidationMessageFor(model => model.Test.TestName)
+        </div>
+
+        <div class="editor-label">
+           Описание теста
+        </div>
+        <div class="editor-field">
+
+             @Html.Kendo().EditorFor(model => model.Test.TestDescription) 
+            @Html.ValidationMessageFor(model => model.Test.TestDescription)
+        </div>
+
+        <div class="editor-label">
+           Категория
+        </div>
+        <div class="editor-field">
+           @Html.DropDownListFor(md => md.Test.CategoryID, Categories) 
+        </div>
+        <div class="editor-label">
+           Сложность
+
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(md => md.Test.DifficultyID, Difficulties) 
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" class = "btn btn-success"/>
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Назад ко всем тестам", "Index", null, new { @class = "btn btn-mini" })
+</div>

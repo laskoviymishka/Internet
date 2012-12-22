@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "About Us";
+}
+
+<h2>About</h2>
+
+    <ul>
+    @foreach(MembershipUser item in Membership.GetAllUsers())
+    {
+        <li> @item @item.CreationDate </li>        
+    }
+    </ul>

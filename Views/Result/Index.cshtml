@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Internet.Models.ViewModel.ResultsViewModel>
+@{
+    
+    ViewBag.Title = "Все результаты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Все результаты</h2>
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>
+            Название теста
+        </th>
+        <th>
+            Имя пользователя прошедшего тест
+        </th>
+        <th>
+            Результат:
+        </th>
+        <th>
+            Подробный результат
+        </th>
+        @if (User.IsInRole("Professor"))
+        {
+            <th>
+                Удаление результатов
+            </th>
+        }
+    </tr>
+    @foreach (var item in Model.ToList())
+    {
+        <tr>
+            <td>@item.TestName
+            </td>
+            <td>@item.UserName
+            </td>
+            <td>
+                результат @item.Score из @item.MaxScore
+            </td>
+            <td>
+                @using (Ajax.BeginForm("ResultPartial/" + item.ResultID.ToString(), new AjaxOptions
+                {
+                    UpdateTargetId = "Details",
+                    HttpMethod = "GET",
+                    LoadingElementId = "progress"
+                }))
+                {
+                    <input type="submit" value="Подробнее" class="btn btn-mini btn-info" />
+                }
+            </td>
+            @if (User.IsInRole("Professor"))
+            {
+                <td>
+                    <a href = "@Url.Content("~/Result/Delete/" + item.ResultID.ToString())" class="btn btn-mini btn-danger">
+                        Удалить </a>
+                </td>
+            }
+        </tr>
+    }
+</table>
+<div id="Details">
+</div>
+<div id="progress"  style="display: none;">
+    <img src="../../Content/images/loading-image.gif" />
+</div>
+<div>
+
+</div>
