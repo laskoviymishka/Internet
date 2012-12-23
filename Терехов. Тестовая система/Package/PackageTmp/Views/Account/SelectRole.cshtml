@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "SelectRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+ @using (Html.BeginForm())
+ {
+        <div class="control-group">
+            <input type="radio" name="Role" value="Professor" /><p>Профессор</p>
+            <input type="radio" name="Role" value="Student" /><p>Студент</p> 
+        </div>
+ <input type="submit" value="Create" /> 
+}

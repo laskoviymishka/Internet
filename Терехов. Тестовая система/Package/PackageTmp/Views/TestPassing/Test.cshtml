@@ -1,0 +1,75 @@
+﻿@model Internet.Models.Test
+@{
+    ViewBag.Title = "Прохождение теста: "+ Html.DisplayFor(model => model.TestName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>Прохождение теста: @Html.DisplayFor(model => model.TestName)</legend>
+    @using (Html.BeginForm())
+    {
+        <table class="table table-striped table-bordered table-condensed">
+            <tr>
+                <th>
+                    Вопрос
+                </th>
+                <th>
+                    Ответ
+                </th>
+            </tr>
+            @foreach (var question in Model.Questions)
+            {
+                List<SelectListItem> Answers = new List<SelectListItem>();
+                foreach (var item in question.Answers)
+                {
+                    Answers.Add(new SelectListItem
+                    {
+                        Text = item.AnswerBody,
+                        Value = item.ID.ToString()
+                    });
+                }
+            
+                <tr>
+                    <td>@question.QuestionBody
+                    </td>
+                    <td>
+                        @switch (question.QuestionType)
+                        {
+                            case 2: foreach (var answer in question.Answers)
+                                {
+                                 <ul> 
+                                    
+                                    <p><input type="checkbox" name="@question.ID" value ="@answer.ID"/>  @answer.AnswerBody</p>
+                                 </ul>                  
+                                }
+                                break;
+                            case 1: foreach (var answer in question.Answers)
+                                {
+                                <ul>
+                                    
+                                    <p><input type="radio" name="@question.ID" value ="@answer.ID"/>  @answer.AnswerBody</p>
+                                </ul>                  
+                                }
+                                break;
+                            case 3: foreach (var answer in question.Answers)
+                                {
+                             
+                                 <input type="text" name ="T @answer.ID" />
+                                                    
+                                }
+                                break;
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+
+        
+        <p>
+            <input type="submit" value="Сохранить ответы" class="btn btn-success" />
+        </p>
+    }
+</fieldset>
+<p>
+    <a href ="@Url.Content("~/TestPassing/Index/")" class="btn btn-mini btn-info">Ко всем тестам</a> |
+    <a href ="@Url.Content("~/Result/Index/")" class="btn btn-mini btn-info">Ко всем результатам</a>
+</p>

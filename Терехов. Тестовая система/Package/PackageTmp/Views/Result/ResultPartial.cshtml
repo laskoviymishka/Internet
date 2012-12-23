@@ -1,0 +1,147 @@
+﻿@model Internet.Models.Result
+@{
+    bool wrong = false;
+    int yourScore = 0;
+    string alertClass = "alert alert-block";
+    }
+<fieldset>
+    <legend>Результат теста</legend>
+    <div class="display-label">
+        Название теста: @Html.DisplayFor(model => model.Test.TestName)</div>
+    <div class="display-label">
+        Пользователь выполнивший тест: @Html.DisplayFor(model => model.UserName)</div>
+    <div class="display-label">
+        Пояснение к тесту от пользователя: @Html.DisplayFor(model => model.ResultDescription)</div>
+
+    <div class="display-label">
+        Ответы данные к тесту</div>
+    <div class="display-field">
+        <table class="table table-striped table-bordered table-condensed">
+            <tr>
+                <th>
+                    Вопрос
+                </th>
+                <th>
+                    Ответ
+                </th>
+
+            </tr>
+            @foreach (var item in Model.Test.Questions)
+            {
+                <tr>
+                    
+                    @if (Model.AnswersResults.Where(a => a.Answer.QuestionID == item.ID).ToList().Count > 0)
+                    {
+                       
+                        <td>
+                        @item.QuestionBody
+                    </td>
+                            if (item.QuestionType == 3)
+                            {
+                                 foreach (var answer in Model.AnswersResults.Where(a => a.Answer.QuestionID == item.ID).ToList()){
+                                    
+                                    
+                                     if (answer.AnswerText.ToLower() == answer.Answer.AnswerBody.ToLower())
+                                    {
+                                    <td>
+                                        <div class="alert alert-success">
+                                        <p>@answer.AnswerText</p></div>
+                                        @if (answer.Answer.IsRight) { yourScore++; }
+                                    </td>
+                                    }
+                                    else
+                                    {
+                                
+                                    <td>
+                                        <div class="alert alert-block">
+                                        <p>@answer.AnswerText</p></div>
+                                    </td>
+
+                                    }
+                                 }
+                            }
+                            else
+                            {
+                                
+                      
+                          <td>
+                           
+                              @foreach (var answer in Model.AnswersResults.Where(a => a.Answer.QuestionID == item.ID).ToList())
+                              {
+
+                                  if (answer.Answer.IsRight)
+                                  {
+
+                                      yourScore++; 
+                     
+                               <div class="alert alert-success">
+                                <p>@answer.Answer.AnswerBody</p></div>
+                           
+                                  }
+                                  else
+                                  {
+                                 
+                               <div class="alert alert-block">
+                                <p>@answer.Answer.AnswerBody</p></div>
+                             
+                                  }
+                              }
+</td>
+
+                            }
+
+                    }
+                    else
+                    {
+                        <td>
+                        @item.QuestionBody
+                        </td>
+                        <td>
+                           <div class="alert alert-block">
+                                <p>нет ответа</p></div>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+ @if (yourScore.ToString() == ViewData["MAX_SCORE"].ToString()) { alertClass = "alert alert-success"; }
+    <div class="@alertClass">
+       <p class="alert-heading"> Общий итог @yourScore из @ViewData["MAX_SCORE"] </p>
+
+      @if (yourScore.ToString() == ViewData["MAX_SCORE"].ToString())
+      {
+              <p>Превосходно! Максимальный результат!!</p>
+      }
+      else
+      {
+        <p>Советуем повторить:</p>
+          <ul>
+            @foreach (var item in Model.Test.Questions)
+            {
+                if (Model.AnswersResults.Where(a => a.Answer.QuestionID == item.ID).ToList().Count > 0)
+                {
+                    foreach (var answer in Model.AnswersResults.Where(a => a.Answer.QuestionID == item.ID).ToList())
+                    {
+                        if (item.QuestionType == 3 && answer.AnswerText.ToLower() != answer.Answer.AnswerBody.ToLower())
+                        {
+                                <li>@item.QuestionSubject</li>
+                        }
+                        else
+                        {
+                            if (!answer.Answer.IsRight)
+                            {
+                                    <li>@item.QuestionSubject</li>
+                            }
+                        }
+                    }
+                }
+                else 
+                {
+                    <li>@item.QuestionSubject</li>                
+                }
+            }
+          </ul>
+      }
+   <div>
+</fieldset>

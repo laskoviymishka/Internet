@@ -1,0 +1,75 @@
+﻿@{    
+
+    ViewBag.Title = "Система тестирования";
+        ViewBag.Message = "Bootstrap Fluid Layout";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Main hero unit for a primary marketing message or call to action -->
+
+
+<!-- Example row of columns -->
+<div class="row-fluid">
+    <div class="span4">
+    
+       @if (User.IsInRole("Professor"))
+       {
+           <ul class="thumbnails">
+          <li class="span8">
+            <div class="thumbnail">
+              <img src="../../Content/images/08_mersky.png" alt="">
+              <h5>Преподователь</h5>
+              <p>Здравствуйте, вы вошли как преподователь. Вы можете создавать и редактировать тесты. 
+           Для этого нажмите на Все тесты. Так же вы можете проходить все тесты и удалять результаты</p>
+            </div>
+          </li>
+        </ul>
+
+       }
+       else
+       {
+           if (User.IsInRole("Student"))
+           {
+               
+               
+           <ul class="thumbnails">
+          <li class="span8">
+            <div class="thumbnail">
+              <img src="../../Content/images/stud.jpg" alt="">
+              <h5>Студент</h5>
+              <p>Здравствуйте, вы вошли как Студент. Вы можете проходить тесты. 
+           Для этого нажмите на Все тесты. Так же вы можете просматривать все результаты</p>
+            </div>
+          </li>
+        </ul>
+           }
+           else
+           {
+            <ul class="thumbnails">
+          <li class="span8">
+            <div class="thumbnail">
+              <img src="../../Content/images/anonimus.jpg" alt="">
+              <h5>Аноним</h5>
+              <p>Здравствуйте, вы вошли как Не авторизовались. Вы не можете проходить тесты. 
+           Для того что бы получить такую возможность, пожалуйста авторизуйтесь. Если у вас еще нет аккуанта зарегистрируйте его</p>
+            </div>
+          </li>
+        </ul>
+            
+           }
+       }
+    </div>
+    <div class="span6">
+    <img src="../../Content/images/logo.png" />
+    <h2>Добро пожаловать на тестовую плотформу</h2>
+    
+    <script type="text/javascript">
+        $('#grumble').grumble({
+            text: 'Bubble-tastic!',
+            angle: 85,
+            distance: 100,
+            showAfter: 500
+        });
+    </script>
+</div>
+    </div>
+</div>
